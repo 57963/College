@@ -1,0 +1,12 @@
+package com.binary.tables;
+
+public class Tables {
+	String input;
+	public static void main(String[] args) {
+		new Tables();
+	}
+	
+	public Tables(){
+		input = System.console().readLine();
+	}
+}

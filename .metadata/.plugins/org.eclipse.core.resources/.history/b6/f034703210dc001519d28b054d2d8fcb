@@ -1,0 +1,17 @@
+package com.binary.tables;
+
+import java.util.Scanner;
+
+public class Tables {
+	String input;
+	Scanner keyboard;
+	public static void main(String[] args) {
+		new Tables();
+	}
+	
+	public Tables(){
+		keyboard = new Scanner(System.in);
+		input = keyboard.nextLine();
+		
+	}
+}
