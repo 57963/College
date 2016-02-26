@@ -27,7 +27,15 @@ public class Tables {
 				}
 			}
 		}
-		
+		for(char v: values){
+			System.out.print(v+"|");
+		}
+		System.out.print("out");
+		System.out.println();
+		for(int i = 0; i<values.size()*2+1;i++){
+			System.out.print("-");
+		}
+		System.out.println();
 		for(int i = 0; i<Math.pow(2, values.size());i++){
 			ArrayList<Integer> subValues = new ArrayList<>();
 			String bin = Integer.toBinaryString(i);
@@ -37,7 +45,13 @@ public class Tables {
 			for(int u = 0; u<values.size(); u++){
 				subValues.add(Integer.parseInt(bin.charAt(u)+""));
 			}
-			System.out.println(pass(sub(subValues)));
+			for(int v: subValues){
+				System.out.print(v+"|");
+			}
+			//System.out.print(subValues);
+			//System.out.println(sub(subValues));
+			//System.out.println(andPass(sub(subValues)));
+			System.out.println(orPass(andPass(sub(subValues))));
 		}
 	}
 	
@@ -46,24 +60,23 @@ public class Tables {
 		for(int i = 0;i<input.length;i++){
 			subbed[i]= input[i];
 		}
-		for(int i = 0;i<subbed.length;i++){
-			for(int u = 0;u<values.size();u++){
-				if(subbed[i] == values.get(u)){
-					if(i>0){
-						if(subbed[i-1] == '¬'){
-							subbed[i] = (char) (subValues.get(u)==1 ? 0:1);
-						}
-					}
-					subbed[i] = subValues.get(u).toString().charAt(0);
-					
-				}
-			}
+		if(values.indexOf(subbed[0])>=0){
+			subbed[0] = subValues.get(values.indexOf(subbed[0])).toString().charAt(0);
 		}
-		return subbed;
+		for(int i = 0;i<subbed.length;i++){
+					if(i>0 && values.indexOf(subbed[i])>=0){
+						if(subbed[i-1] == '¬'){
+							subbed[i] = subValues.get(values.indexOf(subbed[i]))==1 ? '0':'1';
+						}else{
+							subbed[i] = subValues.get(values.indexOf(subbed[i])).toString().charAt(0);
+						}
+				}
+		}
+		return new String(subbed).replaceAll("¬", "").toCharArray();
 	}
 	
-	public char[] pass(char[] toPass){
-		String[] and = new String(toPass).split("\"+");
+	public char[] andPass(char[] toPass){
+		String[] and = new String(toPass).split("\\+");
 		for(int i = 0; i<and.length;i++){
 			boolean on = true;
 			for(char c:and[i].toCharArray()){
@@ -75,8 +88,20 @@ public class Tables {
 		}
 		String out = "";
 		for(String s: and){
-			out += s;
+			out += s+"+";
 		}
+		out = out.substring(0, out.length()-1);
 		return out.toCharArray();
+	}
+	
+	public Character orPass(char[] toPass){
+		String or = new String(toPass).replaceAll("\\+","");
+		boolean on = false;
+		for(char s:or.toCharArray()){
+			if(s == '1'){
+				on = true;
+			}
+		}
+		return on?'1':'0';
 	}
 }
