@@ -1,0 +1,28 @@
+package com.reaction;
+
+import java.util.Scanner;
+
+public class Reaction {
+	 Scanner keyboard;
+	 String input = "";
+	public static void main(String[] args) {
+		new Reaction();
+	}
+	
+	Reaction(){
+		keyboard = new Scanner(System.in);
+		System.out.println("Reaction v0.01");
+		while(!input.equals("stop")){
+			input = keyboard.nextLine();
+			switch(input){
+			case "start":
+				start();
+			}
+		}
+	}
+	
+	void start(){
+		System.out.println("Start");
+	}
+
+}

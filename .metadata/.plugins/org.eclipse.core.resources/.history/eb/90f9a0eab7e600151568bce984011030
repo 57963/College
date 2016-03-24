@@ -1,0 +1,90 @@
+package com.reaction;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.TreeSet;
+import java.util.concurrent.TimeUnit;
+
+public class Reaction {
+	TreeSet<Integer> times =new TreeSet<>();
+	ArrayList<Integer> chronTimes = new ArrayList<>();
+	Scanner keyboard;
+	String input = "";
+	 
+	public static void main(String[] args) {
+		new Reaction();
+	}
+	
+	Reaction(){
+		keyboard = new Scanner(System.in);
+		System.out.println("Reaction v0.01");
+		System.out.println("--------------");
+		for(int i = 0; i<25;i++){
+			times.add((int) (Math.random()*100+500));
+		}
+		times();
+		while(!input.equals("stop")){
+			input = keyboard.nextLine();
+			switch(input){
+			case "start":
+				start();
+				break;
+			case "times":
+				times();
+				break;
+			case "graph":
+				graph();
+				break;
+			}
+		}
+	}
+	
+	void graph(){
+		int max = (int) times.toArray()[times.size()-1];
+		int min = (int) times.toArray()[0];
+		for(int y = (int) Math.ceil((max-min)/10); y>0;y--){
+			for(int x = 0; x<chronTimes.size();x++){
+				System.out.print("x");
+				if(chronTimes.get(x)>y*10){
+					System.out.print("X");
+				} else{
+					System.out.print(" ");
+				}
+			}
+			System.out.println("y");
+		}
+	}
+	
+	void times(){
+		System.out.println("Rank | Time/ms");
+		System.out.println("--------------");
+		for(int i = 0; i <times.size();i++){
+			System.out.println(i+1+"     ".substring(Integer.toString(i+1).length())+"| "+times.toArray()[i]);
+		}
+	}
+	
+	void start(){
+		System.out.println("Press enter when the line appears.");
+		for(int i=3; i>0; i--){
+			try {TimeUnit.SECONDS.sleep(1);
+			} catch (InterruptedException e) {e.printStackTrace();}
+			System.out.println(i);
+		}
+		try {TimeUnit.SECONDS.sleep((long) (Math.random()*3+3));
+		} catch (InterruptedException e) {e.printStackTrace();}
+		long totalTime = 0;
+		System.out.println("----------------------------------------");
+		long startTime = System.currentTimeMillis();
+		if(keyboard.nextLine().equals("")){
+			totalTime = System.currentTimeMillis() - startTime;
+		}
+		if(totalTime<1){
+			System.out.println("Invalid time.");
+		} else{
+			System.out.println(totalTime+"ms");
+			times.add((int) totalTime);
+			chronTimes.add((int)totalTime);
+		}
+	}
+
+}

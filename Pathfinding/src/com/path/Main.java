@@ -1,0 +1,29 @@
+package com.path;
+
+import java.util.ArrayList;
+
+public class Main {
+	ArrayList<Node> nodes = new ArrayList<>();
+	public static void main(String[] args){
+		new Main();
+	}
+	
+	public Main(){
+		for(int i = 0; i<100;i++){
+			nodes.add(new Node(i+""));
+		}
+		for(int i = 0;i<100;i++){
+			newConnection(nodes.get((int) (Math.random()*100)),nodes.get((int) (Math.random()*100)));
+		}
+		for(Node n: nodes){
+			for(Node c:n.connections){
+				System.out.println(n.name + " is connected to "+c.name);
+			}
+		}
+	}
+	
+	public void newConnection(Node n1, Node n2){
+		n1.connections.add(n2);
+		n2.connections.add(n1);
+	}
+}

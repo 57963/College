@@ -1,0 +1,12 @@
+package com.reaction;
+
+public class test {
+
+	public static void main(String[] args) {
+		String [][] test = new String[5][2];
+		test[5][2] = "test";
+		System.out.println(test[5][2]);
+
+	}
+
+}
